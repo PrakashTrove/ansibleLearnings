@@ -1,0 +1,23 @@
+- name: Clone repo in opt directory
+  hosts: 127.0.0.1
+  connection: local
+  tasks:
+  - name: Create new Directory
+    file:
+            path: /opt/finappDir
+            state: directory
+
+  - name: check out a git to repository
+    git: repo=https://github.com/PrakashTrove/spring-security-registration.git dest=/opt/finappDir
+
+  - name: Listing files and Directories in /opt/finappDir folder
+    command: chdir=/opt/finappDir ls
+
+  - name: Installing Maven
+    shell:
+            cmd: apt install maven -y
+
+  - name: Maven Install
+    shell:
+            cmd: mvn clean install -Dmaven.test.skip=true
+            chdir: /opt/finappDir
